@@ -19,7 +19,7 @@ pdf(file = paste0("distribution.plot_",peakMerged.mode,".pdf"),paper = "USr")
 PlotPeaksDitr <- function(files.list, suffix = "[.]anno[.]txt"){
   distribute_df <- NULL
   for( file in files.list ){
-    anno.table <- read.table(file, header=F, sep="\t", quote="", stringsAsFactors = F)[,c(1,2,3,15,11,12,13,14,17)]
+    anno.table <- read.delim(file, header=F, sep="\t", quote="", stringsAsFactors = F)[,c(1,2,3,15,11,12,13,14,17)]
     colnames(anno.table) <- c("Chr","ChrStart","ChrEnd","ID","Gene_symbol","Coding","Location","Relative_distance","RNA_type")
     peak.freq = c(as.numeric(as.vector(anno.table[which(anno.table[,7]=="5UTR"),8])),
                   as.numeric(as.vector(anno.table[which(anno.table[,7]=="CDS"),8]))+100,
@@ -46,7 +46,7 @@ anno.files.list <- dir(pattern = "[.]anno[.]txt")
 ### barplot
 total.distribute <- NULL
 for( file in anno.files.list ){
-  anno.table <- read.table(file, header=F, sep="\t", quote="", stringsAsFactors = F)[,c(1,2,3,15,11,12,13,14,17)]
+  anno.table <- read.delim(file, header=F, sep="\t", quote="", stringsAsFactors = F)[,c(1,2,3,15,11,12,13,14,17)]
   colnames(anno.table) <- c("Chr","ChrStart","ChrEnd","ID","Gene_symbol","Coding","Location","Relative_distance","RNA_type")
   anno.table[anno.table$Location == "CDS" & anno.table$Relative_distance >= 95,7] <- "Stop Codon"
   anno.table[anno.table$Location == "3UTR" & anno.table$Relative_distance <= 5,7] <- "Stop Codon"
